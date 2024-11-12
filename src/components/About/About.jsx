@@ -1,8 +1,12 @@
+import { useContext } from "react";
+import { authContext } from "../MainLayout/MainLayout";
 
 const About = () => {
+    const {handleGoogleLogin, setUser} = useContext(authContext)
     return (
         <div>
-            <h1>I am about</h1>
+            <button onClick={handleGoogleLogin}>Google Login</button>
+            <button onClick={()=> setUser('shahidul islam')}>Google Login</button>
         </div>
     );
 };
