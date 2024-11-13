@@ -9,7 +9,8 @@ const Navbar = () => {
             <NavLink style={{marginLeft: '20px'}} to='/about'>About</NavLink>
             <NavLink style={{marginLeft: '20px'}} to='/login'>Login</NavLink>
             <NavLink style={{marginLeft: '20px'}} to='/profile'>Profile</NavLink>
-            <button onClick={handleLogout}>LogOut</button>
+            <NavLink style={{marginLeft: '20px'}} to='/stats'>Statistics</NavLink>
+            <button style={{marginLeft: '20px'}} onClick={handleLogout}>LogOut</button>
         </div>
     );
 };

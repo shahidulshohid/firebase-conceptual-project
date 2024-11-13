@@ -8,11 +8,13 @@ export const authContext = createContext()
 
 const MainLayout = () => {
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
 
     const handleGoogleLogin = ()=> {
+        setLoading(true)
         signInWithPopup(auth, googleProvider)
         .then(result => {
             setUser(result.user)
@@ -22,6 +24,7 @@ const MainLayout = () => {
         })
     }
     const handleGithubLogin = () => {
+        setLoading(true)
         signInWithPopup(auth, githubProvider)
         .then(result => {
             setUser(result.user)
@@ -32,12 +35,14 @@ const MainLayout = () => {
     }
 
     const handleSignUp = (email, password) => {
+        setLoading(true)
         createUserWithEmailAndPassword(auth, email, password)
         .then(res => {
             console.log(res.user)
         })
     }
     const handleSignIn = (email, password) => {
+        setLoading(true)
         signInWithEmailAndPassword(auth, email, password)
         .then(res => {
             console.log(res)
@@ -45,6 +50,7 @@ const MainLayout = () => {
     }
 
     const handleLogout = () => {
+        setLoading(true)
         signOut(auth)
         .then(res => console.log(res))
     }
@@ -53,9 +59,23 @@ const MainLayout = () => {
         console.log('user state', user)
     }, [user])
 
+    // useEffect(()=>{
+    //     const unSubscribe = onAuthStateChanged(auth, currentUser => {
+    //         setUser(currentUser)
+    //         setLoading(false)
+    //     })
+    //     return ()=> unSubscribe()
+    // }, [])
+
+    // another approach 
     useEffect(()=>{
         const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser)
+            if(currentUser){
+                setUser(currentUser)
+            }else{
+                setUser(null)
+            }
+            setLoading(false)
         })
         return ()=> unSubscribe()
     }, [])
@@ -64,6 +84,8 @@ const MainLayout = () => {
         handleGoogleLogin,
         handleGithubLogin,
         user,
+        loading, 
+        setLoading,
         setUser,
         handleSignUp,
         handleSignIn,
