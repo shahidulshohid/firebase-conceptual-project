@@ -1,6 +1,7 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword   } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, TwitterAuthProvider  } from "firebase/auth";
 import {auth} from '../../firebase/firebase.config'
 import Navbar from "../Navbar/Navbar";
 
@@ -12,6 +13,7 @@ const MainLayout = () => {
 
     const googleProvider = new GoogleAuthProvider();
     const githubProvider = new GithubAuthProvider();
+    const twitterProvider = new TwitterAuthProvider()
 
     const handleGoogleLogin = ()=> {
         setLoading(true)
@@ -28,6 +30,17 @@ const MainLayout = () => {
         signInWithPopup(auth, githubProvider)
         .then(result => {
             setUser(result.user)
+        })
+        .catch(error => {
+            console.log('ERROR', error.message)
+        })
+    }
+
+    const handleTwitterLogin = () => {
+        setLoading(true)
+        return signInWithPopup(auth, twitterProvider)
+        .then(res => {
+            setUser(res.user)
         })
         .catch(error => {
             console.log('ERROR', error.message)
@@ -83,6 +96,7 @@ const MainLayout = () => {
     const authData = {
         handleGoogleLogin,
         handleGithubLogin,
+        handleTwitterLogin,
         user,
         loading, 
         setLoading,
