@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword   } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, GithubAuthProvider, onAuthStateChanged, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword   } from "firebase/auth";
 import {auth} from '../../firebase/firebase.config'
+import Navbar from "../Navbar/Navbar";
 
 export const authContext = createContext()
 
@@ -36,6 +37,12 @@ const MainLayout = () => {
             console.log(res.user)
         })
     }
+    const handleSignIn = (email, password) => {
+        signInWithEmailAndPassword(auth, email, password)
+        .then(res => {
+            console.log(res)
+        })
+    }
 
     const handleLogout = () => {
         signOut(auth)
@@ -59,11 +66,13 @@ const MainLayout = () => {
         user,
         setUser,
         handleSignUp,
+        handleSignIn,
         handleLogout
     }
     return (
         <div>
             <authContext.Provider value={authData}>
+                <Navbar></Navbar>
             <Outlet></Outlet>
             </authContext.Provider>
         </div>

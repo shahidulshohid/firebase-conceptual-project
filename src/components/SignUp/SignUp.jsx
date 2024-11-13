@@ -12,13 +12,19 @@ const SignUp = () => {
         console.log(email, password, conPassword)
 
         // validation here
-        if(password.length < 6){
-            alert('password must be 6 characters')
+        // if(password.length < 6){
+        //     alert('password must be 6 characters')
+        //     return
+        // }
+        // if(password != conPassword){
+        //     alert("password didn't match")
+        //     return 
+        // }
+
+        // validation 
+        if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/.test(password)){
+            alert('password not valid')
             return
-        }
-        if(password != conPassword){
-            alert("password didn't match")
-            return 
         }
 
         handleSignUp(email, password)
